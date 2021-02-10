@@ -15,12 +15,12 @@ void insert_triangle_into_box(
   double tzmax = std::max(std::max(a[2], b[2]), c[2]);
   double tzmin = std::min(std::min(a[2], b[2]), c[2]);
 
-  B.min_corner[0] = std::min(txmax, B.min_corner[0]);
-  B.max_corner[0] = std::max(txmin, B.max_corner[0]);
-  B.min_corner[1] = std::min(tymax, B.min_corner[1]);
-  B.max_corner[1] = std::max(tymin, B.max_corner[1]);
-  B.min_corner[2] = std::min(tzmax, B.min_corner[2]);
-  B.max_corner[2] = std::max(tzmin, B.max_corner[2]);
+  B.min_corner[0] = std::min(txmin, B.min_corner[0]);
+  B.max_corner[0] = std::max(txmax, B.max_corner[0]);
+  B.min_corner[1] = std::min(tymin, B.min_corner[1]);
+  B.max_corner[1] = std::max(tymax, B.max_corner[1]);
+  B.min_corner[2] = std::min(tzmin, B.min_corner[2]);
+  B.max_corner[2] = std::max(tzmax, B.max_corner[2]);
   ////////////////////////////////////////////////////////////////////////////
 }
 
