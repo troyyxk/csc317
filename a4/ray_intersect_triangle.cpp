@@ -12,9 +12,9 @@ bool ray_intersect_triangle(
   ////////////////////////////////////////////////////////////////////////////
   // Replace with your code here:
   bool hit = false;
-  Eigen::Vector3d A = std::get<0>(corners);
-  Eigen::Vector3d B = std::get<1>(corners);
-  Eigen::Vector3d C = std::get<2>(corners);
+  // Eigen::Vector3d A = std::get<0>(corners);
+  // Eigen::Vector3d B = std::get<1>(corners);
+  // Eigen::Vector3d C = std::get<2>(corners);
   Eigen::Vector3d t1 = A - B;
   Eigen::Vector3d t2 = A - C;
 
@@ -34,7 +34,7 @@ bool ray_intersect_triangle(
 
   double m = a*(e*i-h*f) + b*(g*f-d*i) +c*(d*h-e*g);
   double cur_t = -(f*(a*k-j*b) + e*(j*c-a*l) + d*(b*l-k*c))/m;
-  if (cur_t < min_t){
+  if ((cur_t < min_t) || (cur_t > max_t)){
     return false;
   }
   double gamma = (i*(a*k - j*b) + h*(j*c - a*l) + g*(b*l - k*c))/m;
