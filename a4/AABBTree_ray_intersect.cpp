@@ -10,8 +10,47 @@ bool AABBTree::ray_intersect(
 {
   ////////////////////////////////////////////////////////////////////////////
   // Replace with your code here:
-  t = 0;
-  return false;
+  bool hit = false;
+  t = std::numeric_limits<double>::max();
+  if (!ray_intersect_box(ray, this->box, min_t, max_t)) {
+    return hit;
+  }
+  hit = true;
+  
+  std::shared_ptr<Object> ld, rd;
+  double lt, rt;
+  lt = std::numeric_limits<double>::max();
+  rt = std::numeric_limits<double>::max();
+  bool lhit = false;
+  bool rhit = false;
+  if (this->left != NULL){
+    lhit = this->left->ray_intersect(ray, min_t, max_t, lt, ld);
+  }
+  if (this->right != NULL){
+    rhit = this->right->ray_intersect(ray, min_t, max_t, rt, rd);
+  }
+
+  // no hits, should not happen
+  if ((!lhit) && (!rhit)){
+    return false;
+  }
+
+  if (lhit){
+    t = lt;
+    descendant = ld;
+  }
+
+  if(rhit){
+    t = rt;
+    descendant = rd;
+    if (lhit && (lt<rt)){
+      t = lt;
+      descendant = ld;
+    }
+  }
+
+
+  return hit;
   ////////////////////////////////////////////////////////////////////////////
 }
 
