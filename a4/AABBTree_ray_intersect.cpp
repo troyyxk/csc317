@@ -18,6 +18,8 @@ bool AABBTree::ray_intersect(
   hit = true;
   
   std::shared_ptr<Object> ld, rd;
+  ld = this->left;
+  rd = this->right;
   double lt, rt;
   lt = std::numeric_limits<double>::max();
   rt = std::numeric_limits<double>::max();
