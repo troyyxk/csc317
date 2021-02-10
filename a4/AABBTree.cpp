@@ -55,20 +55,32 @@ AABBTree::AABBTree(
     }
   }
 
+  // https://www.cplusplus.com/reference/vector/vector/push_back/
+  // http://www.cplusplus.com/reference/vector/vector/pop_back/
   // no element
   if  ((left_objects.size() == 0) && (right_objects.size() == 0)){
     this->left = NULL;
     this->right = NULL;
   }
-  else if (left_objects.size() == 0)
-  {
-    this->left = NULL;
+  else if ((left_objects.size() == 0) && (right_objects.size() == 1)) {
+    this->left = right_objects.back();
+    this->right = NULL;
+  }
+  else if ((left_objects.size() == 1) && (right_objects.size() == 0)) {
+    this->left = left_objects.back();
+    this->right = NULL;
+  }
+  else if ((left_objects.size() == 0) && (right_objects.size() > 1)) {
+    left_objects.push_back(right_objects.back());
+    right_objects.pop_back();
+    this->left = std::make_shared<AABBTree>(left_objects, child_depth);
     this->right = std::make_shared<AABBTree>(right_objects, child_depth);
   }
-  else if (right_objects.size() == 0)
-  {
+  else if ((left_objects.size() > 1) && (right_objects.size() == 0)) {
+    right_objects.push_back(left_objects.back());
+    left_objects.pop_back();
     this->left = std::make_shared<AABBTree>(left_objects, child_depth);
-    this->right = NULL;
+    this->right = std::make_shared<AABBTree>(right_objects, child_depth);
   }
   else{
     this->left = std::make_shared<AABBTree>(left_objects, child_depth);
