@@ -9,7 +9,7 @@ double point_box_squared_distance(
   // Replace with your code here
   double d = 0;
   d += pow(std::max(std::max(box.min_corner[0] - query[0], query[0] - box.max_corner[0]), 0.0), 2);
-  d += pow(std::max(std::max(box.min_corner[2] - query[2], query[2] - box.max_corner[2]), 0.0), 2);
+  d += pow(std::max(std::max(box.min_corner[1] - query[1], query[1] - box.max_corner[1]), 0.0), 2);
   d += pow(std::max(std::max(box.min_corner[2] - query[2], query[2] - box.max_corner[2]), 0.0), 2);
   return d;
   ////////////////////////////////////////////////////////////////////////////
