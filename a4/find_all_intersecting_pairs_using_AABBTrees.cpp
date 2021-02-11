@@ -35,58 +35,49 @@ void find_all_intersecting_pairs_using_AABBTrees(
       leaf_pairs.push_back(std::make_pair(node_A, node_B));
     }
   //   else if node_A is a leaf
-  //     if node_A.box intersects node_B.left.box
-  //       Q.insert( node_A, node_B.left )
-  //     if node_A.box intersects node_B.right.box
-  //       Q.insert( node_A, node_B.right )
     else if (!ta){
-      if ((tb->left != NULL) && box_box_intersect(node_A->box, tb->left->box)){
-        Q.push_back(std::make_pair(node_A, tb->left));
+      if (tb->left != NULL){
+        if (box_box_intersect(node_A->box, tb->left->box)){
+          Q.push_back(std::make_pair(node_A, tb->left));
+        }
       }
-      if ((tb->right != NULL) && box_box_intersect(node_A->box, tb->right->box)){
-        Q.push_back(std::make_pair(node_A, tb->right));
+      if (tb->right != NULL){
+        if (box_box_intersect(node_A->box, tb->right->box)){
+          Q.push_back(std::make_pair(node_A, tb->right));
+        }
       }
     }
   //   else if node_B is a leaf
-  //     if node_A.left.box intersects node_B.box
-  //       Q.insert( node_A.left, node_B)
-  //     if node_A.right.box intersects node_B.box
-  //       Q.insert( node_A.right, node_B)
     else if (!tb){
-      if ((ta->left != NULL) && box_box_intersect(node_B->box, ta->left->box)){
-        Q.push_back(std::make_pair(ta->left, node_B));
+      if (ta->left != NULL){
+        if (box_box_intersect(node_B->box, ta->left->box)){
+          Q.push_back(std::make_pair(ta->left, node_B));
+        }
       }
-      if ((ta->right != NULL) && box_box_intersect(node_B->box, ta->right->box)){
-        Q.push_back((ta->right, node_B));
+      if (ta->right != NULL){
+        if (box_box_intersect(node_B->box, ta->right->box)){
+          Q.push_back(std::make_pair(ta->right, node_B));
+        }
       }
     }
   //   else
-  //     if node_A.left.box intersects node_B.left.box
-  //       Q.insert( node_A.left, node_B.left )
-  //     if node_A.left.box intersects node_B.right.box
-  //       Q.insert( node_A.left, node_B.right )
-  //     if node_A.right.box intersects node_B.right.box
-  //       Q.insert( node_A.right, node_B.right )
-  //     if node_A.right.box intersects node_B.left.box
-  //       Q.insert( node_A.right, node_B.left )
-      else{
-        if (ta->left != NULL){
-          if (tb->left != NULL){
-            if (box_box_intersect(ta->left->box, tb->left->box)){
-              Q.push_back(std::make_pair(ta->left, tb->left));
-            }
-          }
-          if (tb->right != NULL){
-            if (box_box_intersect(ta->left->box, tb->right->box)){
-              Q.push_back(std::make_pair(ta->left, tb->right));
-            }
+    else{
+      if (ta->left != NULL){
+        if (tb->left != NULL){
+          if (box_box_intersect(ta->left->box, tb->left->box)){
+            Q.push_back(std::make_pair(ta->left, tb->left));
           }
         }
-        if (ta->right != NULL){
-          if (tb->right != NULL){
-            if (box_box_intersect(ta->right->box, tb->right->box)){
-              Q.push_back(std::make_pair(ta->right, tb->right));
-            }
+        if (tb->right != NULL){
+          if (box_box_intersect(ta->left->box, tb->right->box)){
+            Q.push_back(std::make_pair(ta->left, tb->right));
+          }
+        }
+      }
+      if (ta->right != NULL){
+        if (tb->right != NULL){
+          if (box_box_intersect(ta->right->box, tb->right->box)){
+            Q.push_back(std::make_pair(ta->right, tb->right));
           }
         }
         if (tb->left != NULL){
@@ -95,6 +86,7 @@ void find_all_intersecting_pairs_using_AABBTrees(
           }
         }
       }
+    }
   }
   ////////////////////////////////////////////////////////////////////////////
 }
