@@ -20,7 +20,7 @@ void nearest_neighbor_brute_force(
   double cur_sqrd;
   for (i=0; i<num_points; i++){
     d = points.row(i)-query;
-    cur_sqrd = sqrt(pow(d[0], 2)+pow(d[1], 2)+pow(d[2], 2));
+    cur_sqrd = pow(d[0], 2)+pow(d[1], 2)+pow(d[2], 2);
     if (first || cur_sqrd<sqrD){
       first = false;
       sqrD = cur_sqrd;
