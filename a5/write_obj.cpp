@@ -19,13 +19,17 @@ bool write_obj(
   // http://www.opengl-tutorial.org/beginners-tutorials/tutorial-7-model-loading/
   // https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html
 
+  // 3D vertex positions V and faces F,
+  // 2D parametrization positions UV and faces UF,
+  // 3D normal vectors NV and faces NF to a .obj file.
+
   std::ofstream file;
   file.open(filename);
   if (!file.is_open()) {
     return false;
   }
 
-  int i;
+  int i, j;
 
   // v is a vertex
   // v 1.000000 -1.000000 -1.000000
@@ -52,9 +56,14 @@ bool write_obj(
   // vertex ind/texture coordinate/normal ind
   for (i=0; i<F.rows(); i++) {
     file << "f";
-    file << " " << F(i, 0)+1 << "/" << UF(i, 0)+1 << "/" << NF(i,0)+1;
-    file << " " << F(i, 1)+1 << "/" << UF(i, 1)+1 << "/" << NF(i,1)+1;
-    file << " " << F(i, 2)+1 << "/" << UF(i, 2)+1 << "/" << NF(i,2)+1;
+    // file << " " << F(i, 0)+1 << "/" << UF(i, 0)+1 << "/" << NF(i,0)+1;
+    // file << " " << F(i, 1)+1 << "/" << UF(i, 1)+1 << "/" << NF(i,1)+1;
+    // file << " " << F(i, 2)+1 << "/" << UF(i, 2)+1 << "/" << NF(i,2)+1;
+
+    // may not be triangle
+    for (j=0; j<F.cols(); j++) {
+      file << " " << F(i, j)+1 << "/" << UF(i, j)+1 << "/" << NF(i, j)+1;
+    }
     file << "\n";
   }
 
