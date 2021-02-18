@@ -9,5 +9,23 @@ void per_face_normals(
   ////////////////////////////////////////////////////////////////////////////
   // Replace with your code:
   N = Eigen::MatrixXd::Zero(F.rows(),3);
+  int i, ia, ib, ic;
+  Eigen::RowVector3d a, b, c, n;
+  for (i=0; i<F.rows(); i++) {
+    ia = F(i, 0);
+    ib = F(i, 1);
+    ic = F(i, 2);
+    a = V.row(ia);
+    b = V.row(ib);
+    c = V.row(ic);
+
+    n = triangle_area_normal(a, b, c);
+
+    N(i, 0) = n(0);
+    N(i, 1) = n(1);
+    N(i, 2) = n(2);
+
+  }
+
   ////////////////////////////////////////////////////////////////////////////
 }
