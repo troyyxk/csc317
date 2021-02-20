@@ -19,7 +19,7 @@ void per_vertex_normals(
 
   Eigen::RowVector3d
   for (i=0; i<VF.rows(); i++) {
-    for(j : VF.row(i)) {
+    for (j : VF.row(i)) {
       ia = F(j, 0);
       ib = F(j, 1);
       ic = F(j, 2);
