@@ -1,9 +1,8 @@
 finished:
+cube.cpp
 write_obj.cpp
 
 further testing:
-cube.cpp
-    光不对
 
 untested done:
 triangle_area_normal.cpp
@@ -21,10 +20,10 @@ catmull_clark.cpp
 todo:
 sphere.cpp
 
-https://github.com/wsxwsx543/csc418-computer-graphics-meshes/blob/3fd074d77306a0644138a1db9400ac7d11729414/src/catmull_clark.cpp
-https://github.com/microshadow/Computer-Graphics/blob/6cfc92f47decf454e77105fc1f83454f57bccf55/A%235/catmull_clark.cpp
-https://github.com/ShuoerWang/csc418/blob/3936dc55fb9bbe1abc2835156a6e369ad1ad506b/A5%20Meshes/catmull_clark.cpp
-https://github.com/robertwyb/Computer-graphic-assignments/blob/ec8411d187e23b4d8137ca91b967b691097e15d7/computer-graphics-meshes/src/catmull_clark.cpp
-https://github.com/LegendChen-X/Meshes/blob/754485c06434ff402f29d7fdfff0d953bce22045/src/catmull_clark.cpp
-https://github.com/CoraZhang/Computer-Graphics/blob/62becf5e2775849759043fdb38f8810cff666e21/a5/catmull_clark.cpp
-https://github.com/daixingy/csc418/blob/9f025fc98b7e13e074dc6bd5c67c59968a053a47/csc418a5/catmull_clark.cpp
+https://github.com/wsxwsx543/csc418-computer-graphics-meshes/blob/3fd074d77306a0644138a1db9400ac7d11729414/src/sphere.cpp
+https://github.com/microshadow/Computer-Graphics/blob/6cfc92f47decf454e77105fc1f83454f57bccf55/A%235/sphere.cpp
+https://github.com/ShuoerWang/csc418/blob/3936dc55fb9bbe1abc2835156a6e369ad1ad506b/A5%20Meshes/sphere.cpp
+https://github.com/robertwyb/Computer-graphic-assignments/blob/ec8411d187e23b4d8137ca91b967b691097e15d7/computer-graphics-meshes/src/sphere.cpp
+https://github.com/LegendChen-X/Meshes/blob/754485c06434ff402f29d7fdfff0d953bce22045/src/sphere.cpp
+https://github.com/CoraZhang/Computer-Graphics/blob/62becf5e2775849759043fdb38f8810cff666e21/a5/sphere.cpp
+https://github.com/daixingy/csc418/blob/9f025fc98b7e13e074dc6bd5c67c59968a053a47/csc418a5/sphere.cpp
