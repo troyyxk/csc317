@@ -34,7 +34,7 @@ bool write_obj(
   // v is a vertex
   // v 1.000000 -1.000000 -1.000000
   for (i=0; i<V.rows(); i++) {
-    file << "V" << " " << V(i, 0) << " " << V(i, 1) << " " << V(i, 2) << "\n";
+    file << "v" << " " << V(i, 0) << " " << V(i, 1) << " " << V(i, 2) << "\n";
   }
 
   // vt is the texture coordinate of one vertex
