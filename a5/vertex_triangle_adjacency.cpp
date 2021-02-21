@@ -13,7 +13,7 @@ void vertex_triangle_adjacency(
   for (i=0; i<num_vertices; i++) {
     for (j=0; j<F.rows(); j++){
       if((i == F(j, 0)) || (i == F(j, 1)) || (i == F(j, 2))) {
-        VF(i).push_back(j);
+        VF[i].push_back(j);
       }
     }
   }
