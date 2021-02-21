@@ -1,14 +1,13 @@
 finished:
+sphere.cpp
 cube.cpp
 write_obj.cpp
-
-untested done:
-sphere.cpp
-triangle_area_normal.cpp
-    test difference between 2 and 2.0
 per_face_normals.cpp
+triangle_area_normal.cpp
 vertex_triangle_adjacency.cpp
 per_vertex_normals.cpp
+
+untested done:
 per_corner_normals.cpp*
 
 onhold:
