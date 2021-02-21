@@ -2,9 +2,8 @@ finished:
 cube.cpp
 write_obj.cpp
 
-further testing:
-
 untested done:
+sphere.cpp
 triangle_area_normal.cpp
     test difference between 2 and 2.0
 per_face_normals.cpp
@@ -18,7 +17,6 @@ onimplementation:
 catmull_clark.cpp
 
 todo:
-sphere.cpp
 
 https://github.com/wsxwsx543/csc418-computer-graphics-meshes/blob/3fd074d77306a0644138a1db9400ac7d11729414/src/sphere.cpp
 https://github.com/microshadow/Computer-Graphics/blob/6cfc92f47decf454e77105fc1f83454f57bccf55/A%235/sphere.cpp
