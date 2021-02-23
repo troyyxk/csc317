@@ -335,9 +335,9 @@ void catmull_clark(
     get_max_min(cur, n1, max, min);
     eep_key1 = std::to_string(min) + "-" + std::to_string(max);
     new_face(0) = cur;
-    new_face(1) = eep_map[eep_key1] + ep_buffer;
+    new_face(1) = eep_map[eep_key0] + ep_buffer;
     new_face(2) = i + fp_buffer;
-    new_face(3) = eep_map[eep_key2] + ep_buffer;
+    new_face(3) = eep_map[eep_key1] + ep_buffer;
     new_F.row(ind) = new_face;
     int++;
 
@@ -352,9 +352,9 @@ void catmull_clark(
     get_max_min(cur, n1, max, min);
     eep_key1 = std::to_string(min) + "-" + std::to_string(max);
     new_face(0) = cur;
-    new_face(1) = eep_map[eep_key1] + ep_buffer;
+    new_face(1) = eep_map[eep_key0] + ep_buffer;
     new_face(2) = i + fp_buffer;
-    new_face(3) = eep_map[eep_key2] + ep_buffer;
+    new_face(3) = eep_map[eep_key1] + ep_buffer;
     new_F.row(ind) = new_face;
     int++;
 
@@ -369,9 +369,9 @@ void catmull_clark(
     get_max_min(cur, n1, max, min);
     eep_key1 = std::to_string(min) + "-" + std::to_string(max);
     new_face(0) = cur;
-    new_face(1) = eep_map[eep_key1] + ep_buffer;
+    new_face(1) = eep_map[eep_key0] + ep_buffer;
     new_face(2) = i + fp_buffer;
-    new_face(3) = eep_map[eep_key2] + ep_buffer;
+    new_face(3) = eep_map[eep_key1] + ep_buffer;
     new_F.row(ind) = new_face;
     int++;
 
@@ -386,9 +386,9 @@ void catmull_clark(
     get_max_min(cur, n1, max, min);
     eep_key1 = std::to_string(min) + "-" + std::to_string(max);
     new_face(0) = cur;
-    new_face(1) = eep_map[eep_key1] + ep_buffer;
+    new_face(1) = eep_map[eep_key0] + ep_buffer;
     new_face(2) = i + fp_buffer;
-    new_face(3) = eep_map[eep_key2] + ep_buffer;
+    new_face(3) = eep_map[eep_key1] + ep_buffer;
     new_F.row(ind) = new_face;
     int++;
   }
