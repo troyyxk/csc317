@@ -115,7 +115,7 @@ void get_edge_point_and_map(
   const std::unordered_map<string, std::vector<int>>& ef_map,
   const Eigen::MatrixXd& face_points,
   std::vector<Eigen::RowVector3d>& edge_points,
-  std::unordered_map<string, std::vector<int>>& eep_map
+  std::unordered_map<string, int>& eep_map
 )
 {
   std::string key, first_str, second_str;
@@ -125,9 +125,9 @@ void get_edge_point_and_map(
   int ind = 0;
   for (auto kv : ef_map) {
     key = kv.first();
-    first_str = key.substr(0, key.find("+"));
+    first_str = key.substr(0, key.find("-"));
     first = std::stoi(first_str);
-    second_str = key.substr(1, key.find("+"));
+    second_str = key.substr(1, key.find("-"));
     second = std::stoi(second_str);
 
     related_faces = kv.second();
@@ -139,7 +139,7 @@ void get_edge_point_and_map(
     center_face_point = (face_points.row(related_faces[0]) + face_points.row(related_faces[1])) / 2.0;
     cur_edge_point = (mide_point + center_face_point) / 2.0;
     edge_points.push_back(cur_edge_point);
-    eep_map[key].push_back(ind);
+    eep_map[key] = ind;
     ind++;
   }
 }
@@ -212,7 +212,7 @@ void get_vertex_point(
   const Eigen::MatrixXd& face_points,
   const std::unordered_map<int, std::vector<int>>& vf_map,
   const std::unordered_map<int, std::vector<int>>& vertex_neighbours,
-  std::vector<Eigen::RowVector3d>& vertex_points
+  Eigen::MatrixXd& vertex_points
 )
 {
   vertex_points.resize(V.rows(), V.columns());
@@ -242,6 +242,7 @@ void get_vertex_point(
     m2 = 1.0 / n;
     m3 = 2.0 / n;
     new_coords = (m1 * old_coords) + (m2 * avg_face_points) + (m3 * avg_mid_edges);
+    vertex_points.row(i) = new_coords;
   }
 }
 
@@ -282,7 +283,7 @@ void catmull_clark(
 
   // get edge points
   std::vector<Eigen::RowVector3d> edge_points;
-  std::unordered_map<string, std::vector<int>> eep_map;
+  std::unordered_map<string, int> eep_map;
   get_edge_point_and_map(V, F, ef_map, face_points, edge_points, eep_map);
 
 
@@ -291,15 +292,105 @@ void catmull_clark(
   //  the average of the face points of the faces the point belongs to(avg_face_points),
   //  the average of the centers of edges the point belongs to(avg_mid_edges),
   //  how many faces a point belongs to(n), then use txhis formula :
-  std::vector<Eigen::RowVector3d> vertex_points;
+  Eigen::MatrixXd vertex_points;
   get_vertex_point(V, F, face_points, vf_map, vertex_neighbours, vertex_points);
 
   // last step, for the new vertices and faces
-  new_V.resize(vertex_points.rows()+E.rows()+F.rows(), 3);
+  new_V.resize(vertex_points.rows() + face_points.rows() + edge_points.size(), 3);
+  int fp_buffer = vertex_points.rows();
+  int ep_buffer = vertex_points.rows() + face_points.rows();
   new_F.resize(F.rows() * 4, 4);
+
   int i;
+
+  // fufill new_v;
+  for (i = 0; i < vertex_points.rows(); i++) {
+    new_V.row(i) = vertex_points.row(i);
+  }
+  for (i = 0; i < face_points.rows(); i++) {
+    new_V.row(i + fp_buffer) = face_points.row(i);
+  }
+  for (i = 0; i < edge_points.size(); i++) {
+    new_V.row(i + ep_buffer) = edge_points[i];
+  }
+
+  Eigen::RowVector4i new_face;
+  int ind = 0;
+  int cur, n0, n1, max, min;
+  std::string eep_key0, eep_key1;
   for (i = 0; i < F.rows(); i++) {
-    
+    v0 = F(i, 0);
+    v1 = F(i, 1);
+    v2 = F(i, 2);
+    v3 = F(i, 3);
+
+    // face 0
+    new_face = Eigen::RowVector4i(0, 0, 0, 0);
+    cur = v0;
+    n0 = v1;
+    n1 = v3;
+
+    get_max_min(cur, n0, max, min);
+    eep_key0 = std::to_string(min) + "-" + std::to_string(max);
+    get_max_min(cur, n1, max, min);
+    eep_key1 = std::to_string(min) + "-" + std::to_string(max);
+    new_face(0) = cur;
+    new_face(1) = eep_map[eep_key1] + ep_buffer;
+    new_face(2) = i + fp_buffer;
+    new_face(3) = eep_map[eep_key2] + ep_buffer;
+    new_F.row(ind) = new_face;
+    int++;
+
+    // face 1
+    new_face = Eigen::RowVector4i(0, 0, 0, 0);
+    cur = v1;
+    n0 = v2;
+    n1 = v0;
+
+    get_max_min(cur, n0, max, min);
+    eep_key0 = std::to_string(min) + "-" + std::to_string(max);
+    get_max_min(cur, n1, max, min);
+    eep_key1 = std::to_string(min) + "-" + std::to_string(max);
+    new_face(0) = cur;
+    new_face(1) = eep_map[eep_key1] + ep_buffer;
+    new_face(2) = i + fp_buffer;
+    new_face(3) = eep_map[eep_key2] + ep_buffer;
+    new_F.row(ind) = new_face;
+    int++;
+
+    // face 2
+    new_face = Eigen::RowVector4i(0, 0, 0, 0);
+    cur = v2;
+    n0 = v3;
+    n1 = v1;
+
+    get_max_min(cur, n0, max, min);
+    eep_key0 = std::to_string(min) + "-" + std::to_string(max);
+    get_max_min(cur, n1, max, min);
+    eep_key1 = std::to_string(min) + "-" + std::to_string(max);
+    new_face(0) = cur;
+    new_face(1) = eep_map[eep_key1] + ep_buffer;
+    new_face(2) = i + fp_buffer;
+    new_face(3) = eep_map[eep_key2] + ep_buffer;
+    new_F.row(ind) = new_face;
+    int++;
+
+    // face 3
+    new_face = Eigen::RowVector4i(0, 0, 0, 0);
+    cur = v3;
+    n0 = v0;
+    n1 = v2;
+
+    get_max_min(cur, n0, max, min);
+    eep_key0 = std::to_string(min) + "-" + std::to_string(max);
+    get_max_min(cur, n1, max, min);
+    eep_key1 = std::to_string(min) + "-" + std::to_string(max);
+    new_face(0) = cur;
+    new_face(1) = eep_map[eep_key1] + ep_buffer;
+    new_face(2) = i + fp_buffer;
+    new_face(3) = eep_map[eep_key2] + ep_buffer;
+    new_F.row(ind) = new_face;
+    int++;
   }
 
   // if not the last iteration, go to the next iteration
