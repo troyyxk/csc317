@@ -37,10 +37,11 @@ void catmull_clark(
   
   if(num_iters == 0)
     return;
-//step 1
+//step 1, get face point
   for(int i = 0; i < F.rows(); i++){
     face_points[i] = (V.row(F(i, 0)) + V.row(F(i, 1)) + V.row(F(i, 2)) + V.row(F(i, 3))) / 4.0;
   }
+  // get edge face map
   for(int i = 0; i < F.rows(); i++){
     for(int j = 0; j < F.cols(); j++){
       std::string key1 = std::to_string(F(i, j)) + " " + std::to_string(F(i, (j + 1) % F.cols()));
@@ -52,12 +53,14 @@ void catmull_clark(
         edges[key2].push_back(i);
     }
   }
+  // get vertex face map
   for(int i = 0; i < F.rows(); i++){
     for(int j = 0; j < F.cols(); j++){
       adj_faces[F(i, j)].push_back(i);
     }
   }
 
+  // get vertex to near by vertex map
   for(int i = 0; i < F.rows(); i++){
     for(int j = 0; j < F.cols(); j++){
       int temp1 = F(i, (j + 1) % F.cols());
