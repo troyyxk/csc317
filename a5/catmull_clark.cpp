@@ -24,7 +24,7 @@ void get_max_min(
   const int& a,
   const int& b,
   int& max,
-  int& min,
+  int& min
   )
 {
   if (a > b) 
@@ -43,13 +43,13 @@ void get_max_min(
 void get_edges_face_map(
   const Eigen::MatrixXd & V,
   const Eigen::MatrixXi & F,
-  std::unordered_map<string, std::vector<int>> & ef_map
+  std::unordered_map<std::string, std::vector<int>> & ef_map
 )
 {
   int i, j;
   int c0, c1, c2, c3;
   int max, min;
-  string cur_edge;
+  std::string cur_edge;
   for (i = 0; F.rows(); i++) {
     c0 = F(i, 0);
     c1 = F(i, 1);
@@ -105,17 +105,17 @@ void get_vertex_face_map(
     vf_map[c0].push_back(i);
     vf_map[c1].push_back(i);
     vf_map[c2].push_back(i);
-    vf_map[c3].push_back(i);vf_map
+    vf_map[c3].push_back(i);
   }
 }
 
 void get_edge_point_and_map(
   const Eigen::MatrixXd& V,
   const Eigen::MatrixXi& F,
-  const std::unordered_map<string, std::vector<int>>& ef_map,
+  const std::unordered_map<std::string, std::vector<int>>& ef_map,
   const Eigen::MatrixXd& face_points,
   std::vector<Eigen::RowVector3d>& edge_points,
-  std::unordered_map<string, int>& eep_map
+  std::unordered_map<std::string, int>& eep_map
 )
 {
   std::string key, first_str, second_str;
@@ -123,21 +123,20 @@ void get_edge_point_and_map(
   std::vector<int> related_faces;
   Eigen::RowVector3d mid_point, center_face_point, cur_edge_point;
   int ind = 0;
-  for (auto kv : ef_map) {
-    key = kv.first();
+  for (auto const& [key, val] : ef_map) {
     first_str = key.substr(0, key.find("-"));
     first = std::stoi(first_str);
     second_str = key.substr(1, key.find("-"));
     second = std::stoi(second_str);
 
-    related_faces = kv.second();
+    related_faces = val;
     assert((related_faces.size() < 2) && "Edge is having less than 2 faces.");
     assert((related_faces.size() > 2) && "Edge is having more than 2 faces.");
     assert((related_faces.size() != 2) && "Edge is not having 2 faces.");
 
     get_mid_point(V.row(first), V.row(second), mid_point);
     center_face_point = (face_points.row(related_faces[0]) + face_points.row(related_faces[1])) / 2.0;
-    cur_edge_point = (mide_point + center_face_point) / 2.0;
+    cur_edge_point = (mid_point + center_face_point) / 2.0;
     edge_points.push_back(cur_edge_point);
     eep_map[key] = ind;
     ind++;
@@ -210,16 +209,16 @@ void get_vertex_point(
   const Eigen::MatrixXd& V,
   const Eigen::MatrixXi& F,
   const Eigen::MatrixXd& face_points,
-  const std::unordered_map<int, std::vector<int>>& vf_map,
-  const std::unordered_map<int, std::vector<int>>& vertex_neighbours,
+  std::unordered_map<int, std::vector<int>>& vf_map,
+  std::unordered_map<int, std::vector<int>>& vertex_neighbours,
   Eigen::MatrixXd& vertex_points
 )
 {
-  vertex_points.resize(V.rows(), V.columns());
+  vertex_points.resize(V.rows(), V.cols());
   int i;
   Eigen::RowVector3d old_coords, new_coords, avg_face_points, avg_mid_edges, cur_mid_point;
   double n;
-  double m1, m2, m3
+  double m1, m2, m3;
   for (i = 0; i < V.rows(); i++) {
     old_coords = V.row(i);
 
@@ -236,7 +235,7 @@ void get_vertex_point(
       get_mid_point(V.row(i), V.row(v), cur_mid_point);
       avg_mid_edges += cur_mid_point;
     }
-    avg_mid_edges /= ((double)vertex_neighbours[i].size();
+    avg_mid_edges /= ((double)vertex_neighbours[i].size());
 
     m1 = (n - 3.0) / n;
     m2 = 1.0 / n;
@@ -275,7 +274,7 @@ void catmull_clark(
 
   // step 2, for each edge, an edge point is created which is the average between the center of the 
   // edge and the center of the segment made with the face points of the two adjacent faces.
-  std::unordered_map<string, std::vector<int>> ef_map;
+  std::unordered_map<std::string, std::vector<int>> ef_map;
   get_edges_face_map(V, F, ef_map);
 
   std::unordered_map<int, std::vector<int>> vf_map;
@@ -283,7 +282,7 @@ void catmull_clark(
 
   // get edge points
   std::vector<Eigen::RowVector3d> edge_points;
-  std::unordered_map<string, int> eep_map;
+  std::unordered_map<std::string, int> eep_map;
   get_edge_point_and_map(V, F, ef_map, face_points, edge_points, eep_map);
 
 
@@ -292,6 +291,9 @@ void catmull_clark(
   //  the average of the face points of the faces the point belongs to(avg_face_points),
   //  the average of the centers of edges the point belongs to(avg_mid_edges),
   //  how many faces a point belongs to(n), then use txhis formula :
+  std::unordered_map<int, std::vector<int>> vertex_neighbours;
+  get_vertex_neighbours(F, vertex_neighbours);
+
   Eigen::MatrixXd vertex_points;
   get_vertex_point(V, F, face_points, vf_map, vertex_neighbours, vertex_points);
 
@@ -316,6 +318,7 @@ void catmull_clark(
 
   Eigen::RowVector4i new_face;
   int ind = 0;
+  int v0, v1, v2, v3;
   int cur, n0, n1, max, min;
   std::string eep_key0, eep_key1;
   for (i = 0; i < F.rows(); i++) {
@@ -339,7 +342,7 @@ void catmull_clark(
     new_face(2) = i + fp_buffer;
     new_face(3) = eep_map[eep_key1] + ep_buffer;
     new_F.row(ind) = new_face;
-    int++;
+    ind++;
 
     // face 1
     new_face = Eigen::RowVector4i(0, 0, 0, 0);
@@ -356,7 +359,7 @@ void catmull_clark(
     new_face(2) = i + fp_buffer;
     new_face(3) = eep_map[eep_key1] + ep_buffer;
     new_F.row(ind) = new_face;
-    int++;
+    ind++;
 
     // face 2
     new_face = Eigen::RowVector4i(0, 0, 0, 0);
@@ -373,7 +376,7 @@ void catmull_clark(
     new_face(2) = i + fp_buffer;
     new_face(3) = eep_map[eep_key1] + ep_buffer;
     new_F.row(ind) = new_face;
-    int++;
+    ind++;
 
     // face 3
     new_face = Eigen::RowVector4i(0, 0, 0, 0);
@@ -390,7 +393,7 @@ void catmull_clark(
     new_face(2) = i + fp_buffer;
     new_face(3) = eep_map[eep_key1] + ep_buffer;
     new_F.row(ind) = new_face;
-    int++;
+    ind++;
   }
 
   // if not the last iteration, go to the next iteration
