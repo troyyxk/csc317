@@ -118,18 +118,18 @@ void get_edge_point_and_map(
   std::unordered_map<std::string, int>& eep_map
 )
 {
-  std::string key, first_str, second_str;
+  std::string first_str, second_str;
   int first, second;
   std::vector<int> related_faces;
   Eigen::RowVector3d mid_point, center_face_point, cur_edge_point;
   int ind = 0;
-  for (auto const& [key, val] : ef_map) {
-    first_str = key.substr(0, key.find("-"));
+  for (auto const& kv : ef_map) {
+    first_str = (kv.first).substr(0, (kv.first).find("-"));
     first = std::stoi(first_str);
-    second_str = key.substr(1, key.find("-"));
+    second_str = (kv.first).substr(1, (kv.first).find("-"));
     second = std::stoi(second_str);
 
-    related_faces = val;
+    related_faces = kv.second;
     assert((related_faces.size() < 2) && "Edge is having less than 2 faces.");
     assert((related_faces.size() > 2) && "Edge is having more than 2 faces.");
     assert((related_faces.size() != 2) && "Edge is not having 2 faces.");
@@ -138,7 +138,7 @@ void get_edge_point_and_map(
     center_face_point = (face_points.row(related_faces[0]) + face_points.row(related_faces[1])) / 2.0;
     cur_edge_point = (mid_point + center_face_point) / 2.0;
     edge_points.push_back(cur_edge_point);
-    eep_map[key] = ind;
+    eep_map[(kv.first)] = ind;
     ind++;
   }
 }
