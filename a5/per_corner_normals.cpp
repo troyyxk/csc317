@@ -14,20 +14,22 @@ void per_corner_normals(
   ////////////////////////////////////////////////////////////////////////////
   // Add your code here:
   const double pi = 3.14159265358979323846;
-  double epsilon = cos((pi*corner_threshold)/180);
+  double epsilon = cos((pi*corner_threshold)/180.0);
   int num_vertices = V.rows();
   std::vector<std::vector<int> > VF;
   vertex_triangle_adjacency(F, num_vertices, VF);
-  Eigen::RowVector3d nf, ng, cur_result;
+  Eigen::RowVector3d nf, nf_normal, ng, ng_normal, cur_result;
   cur_result = Eigen::RowVector3d(0, 0, 0);
 
   int i, k;
   for (i=0; i<F.rows(); i++) {
-    nf = triangle_area_normal(V.row(F(i, 0)), V.row(F(i, 1)), V.row(F(i, 2)));
     for (k=0; k<F.cols(); k++) {
       for (int j : VF[F(i, k)]) {
+        nf = triangle_area_normal(V.row(F(i, 0)), V.row(F(i, 1)), V.row(F(i, 2)));
+        nf_normal = nf.normalized();
         ng = triangle_area_normal(V.row(F(j, 0)), V.row(F(j, 1)), V.row(F(j, 2)));
-        if (nf.dot(ng) > epsilon) {
+        ng_normal = ng.normalized();
+        if (nf_normal.dot(ng_normal) > epsilon) {
           cur_result += ng;
         }
       }
