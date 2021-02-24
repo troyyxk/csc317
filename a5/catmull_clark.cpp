@@ -269,7 +269,7 @@ void catmull_clark(
   // if this is the last iteration
   SV = V;
   SF = F;
-  if ((num_iters - 1) == 0) {
+  if (num_iters == 0) {
     return;
   }
 
