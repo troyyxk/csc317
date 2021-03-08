@@ -25,6 +25,15 @@ void main()
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  pos_cs_in = vec4(pos_vs_in,1.0);
+  mat4 overall_matrix = identity();
+  if (is_moon) {
+    // shrink the model by 70%
+    overall_matrix = uniform_scale(0.3);
+    // shift away from the origin by 2 units
+    overall_matrix *= translate(vec3(2, 2, 2));
+    // rotate around the origin at a frequency of 1 revolution per 4 seconds
+    overall_matrix *= model(is_moon, animation_seconds);
+  }
+  pos_cs_in = view  * proj * overall_matrix * vec4(pos_vs_in,1.0);
   /////////////////////////////////////////////////////////////////////////////
 }
