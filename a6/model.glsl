@@ -11,10 +11,11 @@ mat4 model(bool is_moon, float time)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  double pi = 3.1415926535897932384626433832795;
+  // 4s per cycle
+  // double pi = 3.1415926535897932384626433832795;
   if (is_moon){
     // moon move
-    return rotate_about_y(pi*time);
+    return rotate_about_y((M_PI/2.0)*time);
   } else{
     // not moon, stay still
     return identity();
