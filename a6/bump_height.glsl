@@ -10,6 +10,22 @@ float bump_height( bool is_moon, vec3 s)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  return 0 ;
+  float noise = improved_perlin_noise((s + vec3(0.1, 0.1, 0.1))*3);
+  if(is_moon)
+  { 
+    noise = smooth_heaviside(noise,1) * 0.1;
+  }
+  else 
+  {
+    noise = smooth_heaviside(noise,20) * 0.1;
+  }
+
+  if (noise <-0.1){
+    noise = -0.1;
+  }
+  if(noise> 0.1){
+    noise = 0.1;
+  }
+  return noise;
   /////////////////////////////////////////////////////////////////////////////
 }
