@@ -28,7 +28,7 @@ void main()
     kd*= noise;
   } else {
     kd = vec3(0,0,1);
-    noise = abs(perlin_noise(sphere_fs_in+vec3(0.1,0.1,0.1))*30);
+    noise = abs(perlin_noise(sphere_fs_in+vec3(0.1,0.8,0.1))*20);
     kd*= noise;
   }
   vec3 ks = vec3(0.9, 0.9, 0.9);
