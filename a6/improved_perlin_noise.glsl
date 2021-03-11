@@ -6,6 +6,11 @@
 // Values between  -½ and ½ ?
 //
 // expects: random_direction, improved_smooth_step
+
+float interpolate(float a0, float a1, float w) {
+  return (a1 - a0) * w + a0;
+}
+
 float improved_perlin_noise( vec3 st) 
 {
   /////////////////////////////////////////////////////////////////////////////
