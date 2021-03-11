@@ -22,6 +22,44 @@ void main()
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  color = vec3(1,1,1);
+
+  // allien planet
+
+  vec3 ka = vec3(0.01,0.01,0.01);
+  vec3 ks = vec3(0.9, 0.9, 0.9);
+
+  vec3 T, B;
+  tangent(normal_fs_in, T, B);
+  float e = 0.000001;
+  vec3 p = bump_position(is_moon, sphere_fs_in);
+  vec3 tp = bump_position(is_moon, (sphere_fs_in + (e*T)));
+  vec3 bp = bump_position(is_moon, (sphere_fs_in + (e*B)));
+  vec3 n = normalize(cross((tp-p)/e, (bp-p)/e));
+
+  vec3 v = normalize(-view_pos_fs_in.xyz);
+  float theta = (M_PI/2.0)*animation_seconds;
+  mat4 ry = mat4(
+      cos(theta),0,-sin(theta),0,
+      0,1,0,0,
+      sin(theta),0,cos(theta),0,
+      0,0,0,1);
+  vec3 l = normalize(ry * vec4(1.0, 1.0, 1.0, 1.0)).xyz;
+
+  vec3 kd;
+  if (is_moon) {
+    if (bump_height(is_moon, sphere_fs_in)>0){
+      kd = vec3(1,0,0);
+    }else{
+      kd = vec3(0,1,1);
+    }
+  } else {
+    if (bump_height(is_moon, sphere_fs_in)>0){
+      kd = vec3(1,0,0);
+    }else{
+      kd = vec3(0,1,1);
+    }
+  }
+
+  color = blinn_phong(ka, kd, ks, 1000, n, v, l);
   /////////////////////////////////////////////////////////////////////////////
 }
