@@ -24,7 +24,7 @@ vec3 blinn_phong(
   // Replace with your code 
   vec3 I = vec3(1,1,1);
   vec3 h = normalize(v + l);
-  return ka * I + kd * I * max(0, dot(n, I)) + ks * I * pow(max(0, dot(n, h)), p);
+  return ka * I + kd * I * max(0, dot(n, l)) + ks * I * pow(max(0, dot(n, h)), p);
   /////////////////////////////////////////////////////////////////////////////
 }
 
