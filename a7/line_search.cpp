@@ -10,6 +10,19 @@ double line_search(
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code
-  return 0;
+  int max_iteration = 100;
+  int i = 0;
+  double cur_step = max_step;
+  Eigen::VectorXd v = z;
+  while(f(v) >= f(z)) {
+    v = z - cur_step*dz;
+    porj_z(v);
+    cur_step = cur_step / (1/2);
+    i++;
+    if(i >= max_iteration) {
+      return cur_step;
+    }
+  }
+  return cur_step;
   /////////////////////////////////////////////////////////////////////////////
 }
