@@ -9,6 +9,17 @@ void kinematics_jacobian(
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code
-  J = Eigen::MatrixXd::Zero(b.size()*3,skeleton.size()*3);
+  Eigen::VectorXd og_a = transformed_tips(skeleton, b);
+  double extra = 0.000000001;
+  int num_skeleton = skeleton.size();
+  int i, j;
+  for (i=0; i<num_skeleton; i++) {
+    for (j=0; j<3; j++) {
+      Skeleton cur = skeleton;
+      cur[i].xzx(j) += extra;
+      Eigen::VectorXd a = transformed_tips(cur, b);
+      J.col(i * 3 + j) = (a - og_a) / extra;
+    }
+  }
   /////////////////////////////////////////////////////////////////////////////
 }

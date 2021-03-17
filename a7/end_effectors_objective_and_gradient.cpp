@@ -16,10 +16,17 @@ void end_effectors_objective_and_gradient(
   // Replace with your code
   f = [&](const Eigen::VectorXd & A)->double
   {
-    return 0.0;
+    Skeleton copy = copy_skeleton_at(skeleton, A);
+    Eigen::VectorXd tips = transformed_tips(copy, b);
+    return (tips - xb0).squaredNorm();
   };
   grad_f = [&](const Eigen::VectorXd & A)->Eigen::VectorXd
   {
+    Skeleton copy = copy_skeleton_at(skeleton, A);
+    Eigen::VectorXd tips = transformed_tips(copy, b);
+
+
+    
     return Eigen::VectorXd::Zero(A.size());
   };
   proj_z = [&](Eigen::VectorXd & A)
