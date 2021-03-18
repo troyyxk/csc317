@@ -9,7 +9,8 @@ Eigen::Affine3d euler_angles_to_transform(
   Eigen::Affine3d x0, z0, x1;
   double a, b, c;
 
-  Eigen::Vector3d & new_xzx = xzx * M_PI /180.0;
+  double pi = 3.14159265358979323846;
+  Eigen::Vector3d new_xzx = xzx * pi /180.0;
   a = new_xzx(0);
   b = new_xzx(1);
   c = new_xzx(2);
