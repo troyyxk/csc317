@@ -17,7 +17,7 @@ double line_search(
   while(f(v) >= f(z)) {
     v = z - cur_step*dz;
     proj_z(v);
-    cur_step = cur_step * (1/2);
+    cur_step = cur_step / 2;
     i++;
     if(i >= max_iteration) {
       return cur_step;
