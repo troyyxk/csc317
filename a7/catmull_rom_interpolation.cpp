@@ -41,9 +41,9 @@ Eigen::Vector3d catmull_rom_interpolation(
   m1 = (theta2 -theta1)/(t2 - t1);
 
 
-  return (2*pow(t, 3) - 3*pow(t, 2) + 1) * theta0 +
-          (pow(t, 3) - 2*pow(t, 2) + t) * m0 + 
-          ((-2)*pow(t, 3) + 3*pow(t, 3)) * theta1 +
+  return (2*pow(t, 3) - 3*pow(t, 2) + 1) * theta0 + \
+          (pow(t, 3) - 2*pow(t, 2) + t) * m0 + \
+          ((-2)*pow(t, 3) + 3*pow(t, 3)) * theta1 + \
           (pow(t, 3) - pow(t, 2)) * m1;
   /////////////////////////////////////////////////////////////////////////////
 }
