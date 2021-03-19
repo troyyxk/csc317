@@ -16,8 +16,8 @@ double line_search(
   Eigen::VectorXd v = z;
   while(f(v) >= f(z)) {
     v = z - cur_step*dz;
-    porj_z(v);
-    cur_step = cur_step / (1/2);
+    proj_z(v);
+    cur_step = cur_step * (1/2);
     i++;
     if(i >= max_iteration) {
       return cur_step;
