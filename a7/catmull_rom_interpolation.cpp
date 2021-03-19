@@ -15,6 +15,7 @@ Eigen::Vector3d catmull_rom_interpolation(
   double time_1 = keyframes[1].first;
   // t is t'
   double new_t = fmod(t, keyframes.back().first);
+  double cur_t = (new_t - time_0)/(time_1 - time_0);
 
   int ind=0;
   while (keyframes[ind].first < new_t) {
