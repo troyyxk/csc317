@@ -8,11 +8,11 @@ Eigen::Vector3d catmull_rom_interpolation(
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code
   // https://en.wikipedia.org/wiki/Cubic_Hermite_spline
-  double t0 = keyframes[0].first;
-  double t1 = keyframes[1].first;
+  double time_0 = keyframes[0].first;
+  double time_1 = keyframes[1].first;
   // t is t'
   double new_t = fmod(t, keyframes.back().first);
-  double cur_t = (new_t - t0)/(t1 - t0);
+  double cur_t = (new_t - time_0)/(time_1 - time_0);
 
   int ind=0;
   while (keyframes[ind].first < new_t) {
