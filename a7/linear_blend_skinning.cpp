@@ -24,7 +24,7 @@ void linear_blend_skinning(
         vi(0) = V(i, 0);
         vi(1) = V(i, 1);
         vi(2) = V(i, 2);
-        cur += W(i, skeleton[j].weight_index) * T[j] * vi;
+        cur += T[j] * vi * W(i, skeleton[j].weight_index);
       }
     }
     U(i, 0) = cur(0);
