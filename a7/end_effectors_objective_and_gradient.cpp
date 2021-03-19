@@ -24,14 +24,20 @@ void end_effectors_objective_and_gradient(
   {
     Skeleton copy = copy_skeleton_at(skeleton, A);
     Eigen::VectorXd tips = transformed_tips(copy, b);
-
+    Eigen::MatrixXd J;
 
     
     return Eigen::VectorXd::Zero(A.size());
   };
   proj_z = [&](Eigen::VectorXd & A)
   {
-    assert(skeleton.size()*3 == A.size());
+    int i;
+    int s_size = skeleton.size();
+    for (i=0; i<s_size; i++){
+      A[i*3] = std::maxc(skeleton[i].xzx_min[0], std::min(skeleton[i].xzx_max[0], A[i*3]));
+      A[(i*3)+1] = std::max(skeleton[i].xzx_min[1], std::min(skeleton[i].xzx_max[1], A[(i*3)+1]));
+      A[(i*3)+2] = std::max(skeleton[i].xzx_min[2], std::min(skeleton[i].xzx_max[2], A[(i*3)+2]));
+    }
   };
   /////////////////////////////////////////////////////////////////////////////
 }
