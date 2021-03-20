@@ -13,6 +13,7 @@ void kinematics_jacobian(
   Eigen::VectorXd a;
   double extra = 0.000000001;
   int num_skeleton = skeleton.size();
+  J = Eigen::MatrixXd::Zero(b.size()*3,num_skeleton*3);
   int i, j;
   for (i=0; i<num_skeleton; i++) {
     for (j=0; j<3; j++) {
