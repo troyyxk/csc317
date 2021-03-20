@@ -16,7 +16,7 @@ Eigen::VectorXd transformed_tips(
   for (i=0; i<b.size(); i++) {
     cur = b[i];
     tip = T[cur] * skeleton[cur].rest_T * Eigen::Vector4d(skeleton[cur].length, 0, 0, 1);
-    tips[i*3 + 0] = tip[0];
+    tips[i*3] = tip[0];
     tips[i*3 + 1] = tip[1];
     tips[i*3 + 2] = tip[2];
 
