@@ -7,10 +7,10 @@ void signed_incidence_matrix_dense(
 {
   //////////////////////////////////////////////////////////////////////////////
   // Replace with your code
-  A = Eigen::MatrixXd::Zero(E.rows(),n);
+  int e_size = E.rows();
+  A = Eigen::MatrixXd::Zero(e_size,n);
   int i, j, e, k;
-  int edge_amount = E.rows();
-  for (e=0; e<edge_amount; e++){
+  for (e=0; e<e_size; e++){
     i = E(e, 0);
     j = E(e, 1);
     for (k=0; k<n; k++){
