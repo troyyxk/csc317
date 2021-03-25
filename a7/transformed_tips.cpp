@@ -8,12 +8,13 @@ Eigen::VectorXd transformed_tips(
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code
   Eigen::VectorXd tip, tips;
-  tips = Eigen::VectorXd::Zero(3*b.size());
+  int b_size = b.size();
+  tips.resize(3*b_size);
   std::vector<Eigen::Affine3d,Eigen::aligned_allocator<Eigen::Affine3d> >  T;
   forward_kinematics(skeleton, T);
 
   int i, cur;
-  for (i=0; i<b.size(); i++) {
+  for (i=0; i<b_size; i++) {
     cur = b[i];
     tip = T[cur] * skeleton[cur].rest_T * Eigen::Vector4d(skeleton[cur].length, 0, 0, 1);
     tips[i*3] = tip[0];
