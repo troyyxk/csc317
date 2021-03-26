@@ -17,7 +17,7 @@ void signed_incidence_matrix_dense(
       if (k == i) {
         A(e, k) = 1.0;
       }
-      if (k == e) {
+      if (k == j) {
         A(e, k) = -1.0;
       }
     }
