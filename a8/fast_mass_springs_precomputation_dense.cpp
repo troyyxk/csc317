@@ -22,9 +22,9 @@ bool fast_mass_springs_precomputation_dense(
   int e_size = E.rows();
   int v_size = V.rows();
   int i, j;
-  r = Eigen::MatrixXd::Zero(e_size);
+  r.resize(e_size);
   for (i=0; i<e_size; i++) {
-    r(i) = (V(E(i, 0)) - V(E(i, 1))).norm();
+    r(i) = (V.row(E(i, 0)) - V.row(E(i, 1))).norm();
   }
   M = Eigen::MatrixXd::Zero(v_size, v_size);
   for (i=0; i<v_size; i++) {
@@ -42,7 +42,8 @@ bool fast_mass_springs_precomputation_dense(
     }
   }
   Eigen::MatrixXd Q = Eigen::MatrixXd::Identity(V.rows(),V.rows());
-  Q = k*A.traspose()*A + (1/pow(delta_t, 2))*M;
+  double w=1e10;
+  Q = k*(A.transpose())*A + (1/pow(delta_t, 2))*M + w*C.transpose()*C;
   /////////////////////////////////////////////////////////////////////////////
   prefactorization.compute(Q);
   return prefactorization.info() != Eigen::NumericalIssue;
